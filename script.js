@@ -88,83 +88,62 @@ const upperCasedCharacters = [
   'Z'
 ];
 
-//**********************************************NOTES********************************************************** */
-
-              // let PasswordLength = prompt('Please state how many characters long the password should be (At least 8 characters but no more than 128.)');
-              // let includeLowercase = prompt('Should the password include lowercase characters? Please type yes or no?').toLowerCase();
-              // let includeUppercase = prompt('Should the password include uppercase characters? Please type yes or no?').toLowerCase();
-              // let includeNumeric = prompt('Should the password include numerical characters? Please type yes or no?').toLowerCase();
-              // let includeSpecialChara = prompt('Should the password include Special characters ($@%&*, etc.) Please type yes or no?').toLowerCase();
-
-              // const numberOnlyRegex = /\d/g;
-              // const plength = '11';
-              // let result = numberOnlyRegex.test(plength);
-              // console.log(result)
-
-              //|| (typeof PasswordLength === 'string') or use regex??
-
-              // let includeUppercase = prompt('Should the password include uppercase characters? Please type yes or no?').toLowerCase();
-              //   if (includeUppercase != 'yes' || includeUppercase != 'no'){
-              //     alert('Incorrect submission');
-              //     includeUppercase = prompt('Should the password include uppercase characters? Please type yes or no?').toLowerCase();
-              //   };
-
-              // let includeNumeric = prompt('Should the password include numerical characters? Please type yes or no?').toLowerCase();
-              //   if (includeNumeric != 'yes' || includeNumeric != 'no'){
-              //     alert('Incorrect submission.');
-              //     includeNumeric = prompt('Should the password include numerical characters? Please type yes or no?').toLowerCase();
-              //   };
-
-              // let includeSpecialChara = prompt('Should the password include Special characters ($@%&*, etc.) Please type yes or no?').toLowerCase();
-              //   if (includeSpecialChara != 'yes' || includeSpecialChara != 'no'){
-              //     alert('Incorrect submission');
-              //     includeSpecialChara = prompt('Should the password include Special characters ($@%&*, etc.) Please type yes or no?').toLowerCase();
-              //   };
-//**********************************************END OF NOTES********************************************************** */
-
+let passwordLength ;
+let includeLowercase ;
+let includeUppercase ;
+let includeNumeric ;
+let includeSpecialChara ;
 
 // Function to prompt user for password options
 function getPasswordOptions() {
   
-  let PasswordLength ;
-  let includeLowercase ;
-  let includeUppercase ;
-  let includeNumeric ;
-  let includeSpecialChara ;
-
-  
-  function getLength(){ //*********need to add check if string is given instead of number & stop floats**********/
-    PasswordLength = prompt('Please state how many characters long the password should be (At least 8 characters but no more than 128.)');
-    while (PasswordLength < 8 || PasswordLength > 128 ){
+  //func to get correct input for password length
+  function getLength(){ 
+    passwordLength = prompt('Please state how many characters long the password should be (At least 8 characters but no more than 128.)');
+        //while loop checks: 
+        // The first 2 arguments check if the PasswordLength input is equal to or greater than 8 or equal to or less than 128 - anything outside this returns false incl letters
+        // The last argument checks for floating points - if PasswordLength remainder = 0 then its a whole number
+    while (!(passwordLength > 7) || !(passwordLength < 129) || !(passwordLength % 1 === 0) ){
       alert('Incorrect submission');
       getLength();
     };
   };
   getLength();
   
-  function getOptions (){
+  //func to get character requirements ensuring at least one is provided
+  function getRequiredChara (){
     includeLowercase = confirm('Should the password include lowercase characters? \n\nClick "OK" for yes or click "Cancel" for no');
     includeUppercase = confirm('Should the password include uppercase characters? \n\nClick "OK" for yes or click "Cancel" for no');
     includeNumeric = confirm('Should the password include numerical characters? \n\nClick "OK" for yes or click "Cancel" for no');
     includeSpecialChara = confirm('Should the password include Special characters ($@%&*, etc.) \n\nClick "OK" for yes or click "Cancel" for no');
-    
+        //while loop checks if all confirms are false
     while (!includeLowercase && !includeUppercase && !includeNumeric && !includeSpecialChara){
       alert('Incorrect submission. You must include at least one character option');
-      getOptions ();
+      getRequiredChara ();
     }
   }
-  getOptions ();
+  getRequiredChara ();
   
-  console.log(`Password Length is: ${PasswordLength}`);
-  console.log(`Does it need to include Lowercase letters: ${includeLowercase}`);
-  console.log(`Does it need to include Uppercase letters: ${includeUppercase}`);
-  console.log(`Does it need to include numerical characters: ${includeNumeric}`);
-  console.log(`Does it need to include Special characters: ${includeSpecialChara}`);
+  // console.log(`Password Length is: ${passwordLength}`);
+  // console.log(`Does it need to include Lowercase letters: ${includeLowercase}`);
+  // console.log(`Does it need to include Uppercase letters: ${includeUppercase}`);
+  // console.log(`Does it need to include numerical characters: ${includeNumeric}`);
+  // console.log(`Does it need to include Special characters: ${includeSpecialChara}`);
   
 }
 
 getPasswordOptions();
 
+//create an object to collate the data from getPasswordOptions();
+let passwordCriteria = {
+  passwordLength: passwordLength,
+  includeLowercase: includeLowercase,
+  includeUppercase: includeUppercase,
+  includeNumeric: includeNumeric,
+  includeSpecialChara: includeSpecialChara
+}
+
+console.log(passwordCriteria);
 
 // Function for getting a random element from an array
 function getRandom(arr) {
@@ -172,11 +151,67 @@ function getRandom(arr) {
   return arr[randomIndex];
 }
 
+//*********************************NOTES*****************************************/
+/*
+Generate Password:
+    - take the input from getPasswordOptions() and randomly pull characters from each array until we reach the length required
+            - use getRandom(arr)  
+    - ensure that at least one character is taken from each of the required character options 
+            - maybe divide password length by no. of required characters and pull that number from their respective arrays?
+    - take the randomly selected characters and add them to a new array to be presented to the user
+
+
+
+  let passwordLength ; --------> Number
+
+  let includeLowercase ; ------> True/False         Array = lowerCasedCharacters
+  let includeUppercase ; ------> True/False         Array = upperCasedCharacters
+  let includeNumeric ; --------> True/False         Array = numericCharacters
+  let includeSpecialChara ; ---> True/False         Array = specialCharacters
+
+*/
+//*****************************END OF NOTES**************************************/
+
+let randomPassword = []; 
+let charactersRequired = [];
 
 // Function to generate password with user input
 function generatePassword() {
-  let randonPassword = []; 
+
+  if (passwordCriteria.includeLowercase) {
+   randomPassword.push(getRandom(lowerCasedCharacters));
+   charactersRequired = charactersRequired.concat(lowerCasedCharacters);
+  };
+
+  if (passwordCriteria.includeUppercase) {
+    randomPassword.push(getRandom(upperCasedCharacters));
+    charactersRequired = charactersRequired.concat(upperCasedCharacters);
+   };
+
+   if (passwordCriteria.includeNumeric) {
+    randomPassword.push(getRandom(numericCharacters));
+    charactersRequired = charactersRequired.concat(numericCharacters);
+   };
+   
+   if (passwordCriteria.includeSpecialChara) {
+    randomPassword.push(getRandom(specialCharacters));
+    charactersRequired = charactersRequired.concat(specialCharacters);
+   };
+
+   let remainingCharaNeeded = passwordLength - randomPassword.length;
+   console.log(`Remaining characaters needs to reach required password length = ${remainingCharaNeeded}`);
+
 }
+generatePassword()
+console.log(randomPassword);
+console.log(charactersRequired);
+
+
+
+
+
+
+
 
 // Get references to the #generate element
 let generateBtn = document.querySelector('#generate');
