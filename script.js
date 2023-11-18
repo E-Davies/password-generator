@@ -178,6 +178,10 @@ let charactersRequired = [];
 // Function to generate password with user input
 function generatePassword() {
 
+  //Check which criteria is needed for the password - if criteria is true, then add a random character from that array 
+  //and then add that specific whole array to charactersRequired array to use later
+  //By adding one character from a passwordCriteria that = true, ensures at least one character is used from that required character set.
+
   if (passwordCriteria.includeLowercase) {
    randomPassword.push(getRandom(lowerCasedCharacters));
    charactersRequired = charactersRequired.concat(lowerCasedCharacters);
@@ -198,13 +202,22 @@ function generatePassword() {
     charactersRequired = charactersRequired.concat(specialCharacters);
    };
 
+   console.log(`currently randompassword = `);
+   console.log(randomPassword);
+   
+   console.log(`charactersRequired array is now: `);
+   console.log(charactersRequired);
+
+   //Check how many more random characters are needed to reach required password length
    let remainingCharaNeeded = passwordLength - randomPassword.length;
    console.log(`Remaining characaters needs to reach required password length = ${remainingCharaNeeded}`);
 
+   for(let i = remainingCharaNeeded; i < passwordLength; i++){
+    randomPassword.push(getRandom(charactersRequired))
+   };
 }
 generatePassword()
-console.log(randomPassword);
-console.log(charactersRequired);
+console.log(`Completed password = ${randomPassword} and is ${randomPassword.length} long`);
 
 
 
