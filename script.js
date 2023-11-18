@@ -93,6 +93,7 @@ let includeLowercase ;
 let includeUppercase ;
 let includeNumeric ;
 let includeSpecialChara ;
+let passwordCriteria = {};
 
 // Function to prompt user for password options
 function getPasswordOptions() {
@@ -130,20 +131,16 @@ function getPasswordOptions() {
   // console.log(`Does it need to include numerical characters: ${includeNumeric}`);
   // console.log(`Does it need to include Special characters: ${includeSpecialChara}`);
   
+  //create an object to collate the data from getPasswordOptions();
+  passwordCriteria = {
+    passwordLength: passwordLength,
+    includeLowercase: includeLowercase,
+    includeUppercase: includeUppercase,
+    includeNumeric: includeNumeric,
+    includeSpecialChara: includeSpecialChara
+  }
 }
 
-getPasswordOptions();
-
-//create an object to collate the data from getPasswordOptions();
-let passwordCriteria = {
-  passwordLength: passwordLength,
-  includeLowercase: includeLowercase,
-  includeUppercase: includeUppercase,
-  includeNumeric: includeNumeric,
-  includeSpecialChara: includeSpecialChara
-}
-
-console.log(passwordCriteria);
 
 // Function for getting a random element from an array
 function getRandom(arr) {
@@ -151,36 +148,21 @@ function getRandom(arr) {
   return arr[randomIndex];
 }
 
-//*********************************NOTES*****************************************/
-/*
-Generate Password:
-    - take the input from getPasswordOptions() and randomly pull characters from each array until we reach the length required
-            - use getRandom(arr)  
-    - ensure that at least one character is taken from each of the required character options 
-            - maybe divide password length by no. of required characters and pull that number from their respective arrays?
-    - take the randomly selected characters and add them to a new array to be presented to the user
-
-
-
-  let passwordLength ; --------> Number
-
-  let includeLowercase ; ------> True/False         Array = lowerCasedCharacters
-  let includeUppercase ; ------> True/False         Array = upperCasedCharacters
-  let includeNumeric ; --------> True/False         Array = numericCharacters
-  let includeSpecialChara ; ---> True/False         Array = specialCharacters
-
-*/
-//*****************************END OF NOTES**************************************/
-
-let randomPassword = []; 
-let charactersRequired = [];
 
 // Function to generate password with user input
 function generatePassword() {
+  
+  //Get password criteria from user
+  getPasswordOptions();
+  console.log(passwordCriteria);
+  
+  //Initialising arrays to use in generatePassword() function
+  let randomPassword = []; 
+  let charactersRequired = [];
 
   //Check which criteria is needed for the password - if criteria is true, then add a random character from that array 
   //and then add that specific whole array to charactersRequired array to use later
-  //By adding one character from a passwordCriteria that = true, ensures at least one character is used from that required character set.
+  //By adding one character from each passwordCriteria that equals true, ensures at least one character is used from that required character set.
 
   if (passwordCriteria.includeLowercase) {
    randomPassword.push(getRandom(lowerCasedCharacters));
@@ -202,28 +184,32 @@ function generatePassword() {
     charactersRequired = charactersRequired.concat(specialCharacters);
    };
 
-   console.log(`currently randompassword = `);
+   console.log(`currently, the randompassword = `);
    console.log(randomPassword);
    
-   console.log(`charactersRequired array is now: `);
+   console.log(`charactersRequired array now includes: `);
    console.log(charactersRequired);
 
    //Check how many more random characters are needed to reach required password length
-   let remainingCharaNeeded = passwordLength - randomPassword.length;
-   console.log(`Remaining characaters needs to reach required password length = ${remainingCharaNeeded}`);
+   let remainingCharaNeeded = passwordCriteria.passwordLength - randomPassword.length;
+   
+   console.log(`Password length required = ${passwordCriteria.passwordLength}`);
+   console.log(`Remaining characaters needed to reach required password length = ${remainingCharaNeeded}`);
 
-   for(let i = remainingCharaNeeded; i < passwordLength; i++){
+   //loop through charactersRequired array, adding random indexes to randomPassword array, until required password length is reached
+   for(let i = 0; i < remainingCharaNeeded; i++){
     randomPassword.push(getRandom(charactersRequired))
    };
-}
-generatePassword()
-console.log(`Completed password = ${randomPassword} and is ${randomPassword.length} long`);
+   console.log(`after adding more characters, randomPassword = `);
+   console.log(randomPassword);
 
+   //turn randomPassword array into a string
+   randomPassword = randomPassword.join('');
+   console.log(`Password to join = ${randomPassword}`);
+   console.log(`Completed password = ${randomPassword} and is ${randomPassword.length} long`);
 
-
-
-
-
+   return randomPassword;
+  }
 
 
 // Get references to the #generate element
