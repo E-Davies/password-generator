@@ -12,7 +12,7 @@ This has been achieved by:
 
 * Pulling random characters from the character arrays selected by the user, until the password length is reached. This password is then presented to the user:
 
-![screenshot of the bootstrap grid displaying various skills](./images/generated-password.JPG)
+![screenshot of password presented to the user on the browser](./images/generated-password.JPG)
 
 
 
