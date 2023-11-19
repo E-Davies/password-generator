@@ -22,7 +22,7 @@ function getLength() {
   // The first 2 arguments check if the PasswordLength input is equal to or greater than 8 or equal to or less than 128 - anything outside this returns false incl letters
   // The last argument checks for floating points - if PasswordLength remainder = 0 then its a whole number
   while (!(passwordLength > 7) || !(passwordLength < 129) || !(passwordLength % 1 === 0)) {
-    alert('Incorrect submission');
+    alert('Incorrect submission. Please try again.');
     return getLength();
   };
   return passwordLength;
