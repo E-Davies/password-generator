@@ -23,3 +23,9 @@ Please use the following link to access the website: https://e-davies.github.io/
 ## Usage
 
 This application will be used by employees looking to generate a random password that meets their requirements.
+
+## Technical skills used in this project
+
+* HTML
+* CSS
+* JavaScript
