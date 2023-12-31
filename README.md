@@ -18,14 +18,17 @@ This has been achieved by:
 
 ## Installation
 
+![Github Pages](https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=white)
+
 Please use the following link to access the website: https://e-davies.github.io/password-generator/
 
 ## Usage
 
 This application will be used by employees looking to generate a random password that meets their requirements.
 
-## Technical skills used in this project
+## Skills used in this project
 
-* HTML
-* CSS
-* JavaScript
+![Static Badge - HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![Static Badge - CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![Static Badge - JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
+
